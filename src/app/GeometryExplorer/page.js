@@ -200,19 +200,20 @@ const GeometryExplorer = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto p-4">
+    <div className="w-full max-w-3xl mx-auto p-3">
       <Card className="bg-white/50 backdrop-blur-sm">
-        <CardContent className="p-6">
+        <CardContent className="p-4">
           {/* Controls */}
-          <div className="flex items-center gap-4 mb-6">
-            <div className="flex gap-2">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="flex gap-1">
               <Button
                 variant={activeGeometry === 'euclidean' ? "default" : "outline"}
                 onClick={() => !isAnimating && setActiveGeometry('euclidean')}
                 className="relative group"
+                size="sm"
               >
-                <Bird className="w-4 h-4 mr-2" />
-                Flight Path
+                <Bird className="w-3 h-3 mr-1" />
+                Flight
                 <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                   Direct path through air
                 </span>
@@ -221,9 +222,10 @@ const GeometryExplorer = () => {
                 variant={activeGeometry === 'taxicab' ? "default" : "outline"}
                 onClick={() => !isAnimating && setActiveGeometry('taxicab')}
                 className="relative group"
+                size="sm"
               >
-                <Car className="w-4 h-4 mr-2" />
-                Street Path
+                <Car className="w-3 h-3 mr-1" />
+                Street
                 <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                   Path following streets
                 </span>
@@ -232,8 +234,9 @@ const GeometryExplorer = () => {
                 variant={activeGeometry === 'both' ? "default" : "outline"}
                 onClick={() => !isAnimating && setActiveGeometry('both')}
                 className="relative group"
+                size="sm"
               >
-                <ArrowRight className="w-4 h-4 mr-2" />
+                <ArrowRight className="w-3 h-3 mr-1" />
                 Compare
                 <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                   Show both paths
@@ -241,43 +244,45 @@ const GeometryExplorer = () => {
               </Button>
             </div>
             
-            <div className="h-6 w-px bg-slate-200 mx-2" />
+            <div className="h-5 w-px bg-slate-200 mx-1" />
             
             <Button
               variant="outline"
               size="icon"
               onClick={() => setShowGrid(!showGrid)}
-              className={showGrid ? 'bg-slate-100' : ''}
+              className={`h-7 w-7 ${showGrid ? 'bg-slate-100' : ''}`}
             >
-              <LayoutGrid className="w-4 h-4" />
+              <LayoutGrid className="w-3 h-3" />
             </Button>
 
-            <div className="ml-auto flex gap-2">
+            <div className="ml-auto flex gap-1">
               {!isAnimating ? (
                 <Button
                   variant="default"
+                  size="sm"
                   onClick={startAnimation}
                   className="relative group"
                 >
-                  <Play className="w-4 h-4 mr-2" />
+                  <Play className="w-3 h-3 mr-1" />
                   Start
-                  <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                    Begin animation
-                  </span>
                 </Button>
               ) : (
                 <>
                   <Button
                     variant="outline"
+                    size="icon"
+                    className="h-7 w-7"
                     onClick={isPaused ? resumeAnimation : pauseAnimation}
                   >
-                    {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
+                    {isPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
                   </Button>
                   <Button
                     variant="outline"
+                    size="icon"
+                    className="h-7 w-7"
                     onClick={resetAnimation}
                   >
-                    <RotateCcw className="w-4 h-4" />
+                    <RotateCcw className="w-3 h-3" />
                   </Button>
                 </>
               )}
@@ -328,14 +333,14 @@ const GeometryExplorer = () => {
                   transition={{ type: "spring", stiffness: 200, damping: 20 }}
                   className={`cursor-grab ${isDragging && selectedPoint === 'start' ? 'cursor-grabbing' : ''}`}
                 >
-                  <circle r="4" fill="#22c55e" />
-                  <circle r="6" className="stroke-green-500 stroke-2 fill-transparent" />
+                  <circle r="2.5" fill="#22c55e" />
+                  <circle r="4" className="stroke-green-500 stroke-1 fill-transparent" />
                   {!isAnimating && (
                     <text
-                      y="-8"
+                      y="-6"
                       textAnchor="middle"
                       fill="#22c55e"
-                      fontSize="4"
+                      fontSize="3"
                       className="font-semibold pointer-events-none"
                     >
                       Start
@@ -343,6 +348,7 @@ const GeometryExplorer = () => {
                   )}
                 </motion.g>
 
+               
                 {/* End Point Marker */}
                 <motion.g
                   initial={false}
@@ -354,142 +360,142 @@ const GeometryExplorer = () => {
                   transition={{ type: "spring", stiffness: 200, damping: 20 }}
                   className={`cursor-grab ${isDragging && selectedPoint === 'end' ? 'cursor-grabbing' : ''}`}
                 >
-                  <circle r="4" fill="#ef4444" />
-                  <circle r="6" className="stroke-red-500 stroke-2 fill-transparent" />
+                  <circle r="2.5" fill="#ef4444" />
+                  <circle r="4" className="stroke-red-500 stroke-1 fill-transparent" />
                   {!isAnimating && (
                     <text
-                      y="-8"
-                      textAnchor="middle"
-                      fill="#ef4444"
-                      fontSize="4"
+                      y="-6"
+                      textAnchor="middle" fill="#ef4444"
+                      fontSize="3"
                       className="font-semibold pointer-events-none"
                     >
                       End
                     </text>
                   )}
                 </motion.g>
- {/* Animated Vehicles */}
- <AnimatePresence>
- {isAnimating && (
-                        <>
-                          {(activeGeometry === 'taxicab' || activeGeometry === 'both') && (
-                            <motion.g
-                              initial={false}
-                              animate={{
-                                x: taxiPosition.x * 10,
-                                y: taxiPosition.y * 10,
-                                rotate: taxiPosition.x === endPoint.x ? 90 : 0
-                              }}
-                              transition={{ type: "linear" }}
-                            >
-                              <circle r="3.5" fill="#fbbf24" className="drop-shadow-md" />
-                              <foreignObject x="-3" y="-3" width="6" height="6">
-                                <div className="w-full h-full flex items-center justify-center">
-                                  <Car className="w-2.5 h-2.5 text-black" />
-                                </div>
-                              </foreignObject>
-                            </motion.g>
-                          )}
 
-                          {(activeGeometry === 'euclidean' || activeGeometry === 'both') && (
-                            <motion.g
-                              initial={false}
-                              animate={{
-                                x: birdPosition.x * 10,
-                                y: birdPosition.y * 10,
-                                rotate: getBirdAngle()
-                              }}
-                              transition={{ type: "linear" }}
-                            >
-                              <circle r="3.5" fill="#3b82f6" className="drop-shadow-md" />
-                              <foreignObject x="-3" y="-3" width="6" height="6">
-                                <div className="w-full h-full flex items-center justify-center">
-                                  <Bird className="w-2.5 h-2.5 text-white" />
-                                </div>
-                              </foreignObject>
-                            </motion.g>
-                          )}
-                        </>
+                {/* Animated Vehicles */}
+                <AnimatePresence>
+                  {isAnimating && (
+                    <>
+                      {(activeGeometry === 'taxicab' || activeGeometry === 'both') && (
+                        <motion.g
+                          initial={false}
+                          animate={{
+                            x: taxiPosition.x * 10,
+                            y: taxiPosition.y * 10,
+                            rotate: taxiPosition.x === endPoint.x ? 90 : 0
+                          }}
+                          transition={{ type: "linear" }}
+                        >
+                          <circle r="2.5" fill="#fbbf24" className="drop-shadow-md" />
+                          <foreignObject x="-2" y="-2" width="4" height="4">
+                            <div className="w-full h-full flex items-center justify-center">
+                              <Car className="w-2 h-2 text-black" />
+                            </div>
+                          </foreignObject>
+                        </motion.g>
                       )}
-                    </AnimatePresence>
-                </svg>
-              </div>
-            </div>
 
-            {/* Metrics Panel */}
-            <div className="mt-6 grid grid-cols-2 gap-6">
-              {/* Distance Metrics */}
-              <Card className="bg-white/50 backdrop-blur-sm">
-                <CardContent className="p-4">
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-blue-500" />
-                        <span className="text-sm font-medium">Flight Distance</span>
-                      </div>
-                      <span className="font-mono text-sm">
-                        {calculateEuclideanDistance(startPoint, endPoint).toFixed(2)} units
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-red-500" />
-                        <span className="text-sm font-medium">Street Distance</span>
-                      </div>
-                      <span className="font-mono text-sm">
-                        {calculateTaxicabDistance(startPoint, endPoint)} units
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between text-purple-600">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-purple-500" />
-                        <span className="text-sm font-medium">Difference</span>
-                      </div>
-                      <span className="font-mono text-sm">
-                        {(calculateTaxicabDistance(startPoint, endPoint) - 
-                          calculateEuclideanDistance(startPoint, endPoint)).toFixed(2)} units
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Instructions/Info Panel */}
-              <Card className="bg-white/50 backdrop-blur-sm">
-                <CardContent className="p-4">
-                  <div className="space-y-2">
-                    {isAnimating ? (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-sm text-gray-600"
-                      >
-                        {activeGeometry === 'both' 
-                          ? "Watch how the direct flight path compares to following the street grid!"
-                          : activeGeometry === 'taxicab'
-                            ? "The taxi must follow the street grid, moving only horizontally and vertically."
-                            : "The bird can fly directly to its destination, taking the shortest possible path."}
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-sm text-gray-600"
-                      >
-                        <p className="mb-2">
-                          <span className="font-medium text-gray-900">Drag</span> the start and end points to explore different paths.
-                        </p>
-                        <p>
-                          <span className="font-medium text-gray-900">Click Start</span> to animate the journey!
-                        </p>
-                      </motion.div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+                      {(activeGeometry === 'euclidean' || activeGeometry === 'both') && (
+                        <motion.g
+                          initial={false}
+                          animate={{
+                            x: birdPosition.x * 10,
+                            y: birdPosition.y * 10,
+                            rotate: getBirdAngle()
+                          }}
+                          transition={{ type: "linear" }}
+                        >
+                          <circle r="2.5" fill="#3b82f6" className="drop-shadow-md" />
+                          <foreignObject x="-2" y="-2" width="4" height="4">
+                            <div className="w-full h-full flex items-center justify-center">
+                              <Bird className="w-2 h-2 text-white" />
+                            </div>
+                          </foreignObject>
+                        </motion.g>
+                      )}
+                    </>
+                  )}
+                </AnimatePresence>
+              </svg>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+
+          {/* Metrics Panel */}
+          <div className="mt-4 grid grid-cols-2 gap-4">
+            {/* Distance Metrics */}
+            <Card className="bg-white/50 backdrop-blur-sm">
+              <CardContent className="p-3">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-blue-500" />
+                      <span className="text-xs font-medium">Flight Distance</span>
+                    </div>
+                    <span className="font-mono text-xs">
+                      {calculateEuclideanDistance(startPoint, endPoint).toFixed(2)} units
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-red-500" />
+                      <span className="text-xs font-medium">Street Distance</span>
+                    </div>
+                    <span className="font-mono text-xs">
+                      {calculateTaxicabDistance(startPoint, endPoint)} units
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-purple-600">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-purple-500" />
+                      <span className="text-xs font-medium">Difference</span>
+                    </div>
+                    <span className="font-mono text-xs">
+                      {(calculateTaxicabDistance(startPoint, endPoint) - 
+                        calculateEuclideanDistance(startPoint, endPoint)).toFixed(2)} units
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Instructions/Info Panel */}
+            <Card className="bg-white/50 backdrop-blur-sm">
+              <CardContent className="p-3">
+                <div className="space-y-2">
+                  {isAnimating ? (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-xs text-gray-600"
+                    >
+                      {activeGeometry === 'both' 
+                        ? "Watch how the direct flight path compares to following the street grid!"
+                        : activeGeometry === 'taxicab'
+                          ? "The taxi must follow the street grid, moving only horizontally and vertically."
+                          : "The bird can fly directly to its destination, taking the shortest possible path."}
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-xs text-gray-600"
+                    >
+                      <p className="mb-1">
+                        <span className="font-medium text-gray-900">Drag</span> the start and end points to explore different paths.
+                      </p>
+                      <p>
+                        <span className="font-medium text-gray-900">Click Start</span> to animate the journey!
+                      </p>
+                    </motion.div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
