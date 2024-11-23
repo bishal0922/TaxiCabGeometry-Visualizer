@@ -3,35 +3,6 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bird, Car } from 'lucide-react';
 
-/**
- * @typedef {Object} Point
- * @property {number} x
- * @property {number} y
- */
-
-/**
- * @typedef {Object} GridProps
- * @property {boolean} showGrid
- * @property {number} gridSize
- * @property {Set<string>} blockedStreets
- * @property {string | null} highlightedStreet
- * @property {boolean} isBlockingMode
- * @property {() => JSX.Element | null} renderPaths
- * @property {Point} startPoint
- * @property {Point} endPoint
- * @property {boolean} isDragging
- * @property {'start' | 'end' | null} selectedPoint
- * @property {boolean} isAnimating
- * @property {Point} birdPosition
- * @property {Point} taxiPosition
- * @property {'euclidean' | 'taxicab' | 'both'} activeGeometry
- * @property {() => number} getBirdAngle
- * @property {(e: React.MouseEvent) => void} handleGridMouseDown
- * @property {(e: React.MouseEvent) => void} handleGridMouseMove
- * @property {() => void} handleGridMouseUp
- * @property {() => void} handleGridMouseLeave
- */
-
 export const Grid = ({
   showGrid,
   gridSize,
@@ -59,6 +30,47 @@ export const Grid = ({
     const [x2, y2] = end.split(',').map(Number);
     return { x1, y1, x2, y2 };
   };
+
+  // Enhanced Point Component with larger hit area
+  const Point = ({ type, position, isSelected }) => (
+    <motion.g
+      initial={false}
+      animate={{
+        x: position.x * 10,
+        y: position.y * 10,
+        scale: isSelected ? 1.2 : 1
+      }}
+      transition={{ type: "spring", stiffness: 200, damping: 20 }}
+      className={`cursor-grab ${isSelected ? 'cursor-grabbing' : ''}`}
+    >
+      {/* Invisible larger hit area */}
+      <circle 
+        r="6" 
+        fill="transparent" 
+        className="hover:fill-current hover:opacity-10 transition-opacity"
+      />
+      {/* Visible point */}
+      <circle 
+        r="2.5" 
+        fill={type === 'start' ? "#22c55e" : "#ef4444"} 
+      />
+      <circle 
+        r="4" 
+        className={`stroke-${type === 'start' ? 'green' : 'red'}-500 stroke-1 fill-transparent`} 
+      />
+      {!isAnimating && (
+        <text
+          y="-6"
+          textAnchor="middle"
+          fill={type === 'start' ? "#22c55e" : "#ef4444"}
+          fontSize="3"
+          className="font-semibold pointer-events-none"
+        >
+          {type === 'start' ? 'Start' : 'End'}
+        </text>
+      )}
+    </motion.g>
+  );
 
   return (
     <div className="relative aspect-square rounded-lg overflow-hidden bg-white shadow-inner">
@@ -123,57 +135,17 @@ export const Grid = ({
         {/* Path Lines */}
         {renderPaths()}
 
-        {/* Start Point */}
-        <motion.g
-          initial={false}
-          animate={{
-            x: startPoint.x * 10,
-            y: startPoint.y * 10,
-            scale: isDragging && selectedPoint === 'start' ? 1.2 : 1
-          }}
-          transition={{ type: "spring", stiffness: 200, damping: 20 }}
-          className={`cursor-grab ${isDragging && selectedPoint === 'start' ? 'cursor-grabbing' : ''}`}
-        >
-          <circle r="2.5" fill="#22c55e" />
-          <circle r="4" className="stroke-green-500 stroke-1 fill-transparent" />
-          {!isAnimating && (
-            <text
-              y="-6"
-              textAnchor="middle"
-              fill="#22c55e"
-              fontSize="3"
-              className="font-semibold pointer-events-none"
-            >
-              Start
-            </text>
-          )}
-        </motion.g>
-
-        {/* End Point */}
-        <motion.g
-          initial={false}
-          animate={{
-            x: endPoint.x * 10,
-            y: endPoint.y * 10,
-            scale: isDragging && selectedPoint === 'end' ? 1.2 : 1
-          }}
-          transition={{ type: "spring", stiffness: 200, damping: 20 }}
-          className={`cursor-grab ${isDragging && selectedPoint === 'end' ? 'cursor-grabbing' : ''}`}
-        >
-          <circle r="2.5" fill="#ef4444" />
-          <circle r="4" className="stroke-red-500 stroke-1 fill-transparent" />
-          {!isAnimating && (
-            <text
-              y="-6"
-              textAnchor="middle"
-              fill="#ef4444"
-              fontSize="3"
-              className="font-semibold pointer-events-none"
-            >
-              End
-            </text>
-          )}
-        </motion.g>
+        {/* Points with enhanced hit areas */}
+        <Point 
+          type="start" 
+          position={startPoint} 
+          isSelected={isDragging && selectedPoint === 'start'} 
+        />
+        <Point 
+          type="end" 
+          position={endPoint} 
+          isSelected={isDragging && selectedPoint === 'end'} 
+        />
 
         {/* Animated Vehicles */}
         <AnimatePresence>
