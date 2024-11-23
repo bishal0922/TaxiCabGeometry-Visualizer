@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 
 /**
  * @typedef {Object} TheoryPanelProps
@@ -12,28 +13,30 @@ import { X } from 'lucide-react';
  */
 
 export const TheoryPanel = ({ 
-  euclideanCalculation, 
-  taxicabCalculation, 
-  setShowTheory 
-}) => {
-  return (
-    <motion.div
-      initial={{ x: -300, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: -300, opacity: 0 }}
-      className="absolute left-0 top-0 h-full w-72 bg-white/95 backdrop-blur-sm shadow-lg z-10 p-4 overflow-y-auto"
-    >
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold">Distance Formulas</h3>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-6 w-6"
-          onClick={() => setShowTheory(false)}
-        >
-          <X className="h-4 w-4" />
-        </Button>
-      </div>
+    euclideanCalculation, 
+    taxicabCalculation, 
+    setShowTheory 
+  }) => {
+    return (
+      <motion.div
+        initial={{ x: 300, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: 300, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
+        <Card className="bg-white/95 backdrop-blur-sm h-full">
+          <CardContent className="p-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="font-semibold">Distance Formulas</h3>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6"
+                onClick={() => setShowTheory(false)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
 
       {/* Euclidean Distance */}
       <div className="mb-6">
@@ -97,6 +100,8 @@ export const TheoryPanel = ({
           <li>• They're equal only when the points are aligned horizontally or vertically.</li>
         </ul>
       </div>
+      </CardContent>
+      </Card>
     </motion.div>
   );
 };

@@ -10,26 +10,8 @@ import {
   ArrowRight,
   LayoutGrid,
   Ban,
-  PanelLeftOpen 
+  PanelRightOpen // Changed from PanelLeftOpen to match new direction
 } from 'lucide-react';
-
-/**
- * @typedef {Object} ControlPanelProps
- * @property {boolean} showTheory - Whether theory panel is visible
- * @property {(show: boolean) => void} setShowTheory - Theory panel toggle handler
- * @property {'euclidean' | 'taxicab' | 'both'} activeGeometry - Current geometry mode
- * @property {(geometry: 'euclidean' | 'taxicab' | 'both') => void} setActiveGeometry - Geometry mode setter
- * @property {boolean} showGrid - Whether grid is visible
- * @property {(show: boolean) => void} setShowGrid - Grid visibility toggle handler
- * @property {boolean} isBlockingMode - Whether blocking mode is active
- * @property {(blocking: boolean) => void} setIsBlockingMode - Blocking mode toggle handler
- * @property {boolean} isAnimating - Whether animation is playing
- * @property {boolean} isPaused - Whether animation is paused
- * @property {() => void} startAnimation - Start animation handler
- * @property {() => void} pauseAnimation - Pause animation handler
- * @property {() => void} resumeAnimation - Resume animation handler
- * @property {() => void} resetAnimation - Reset animation handler
- */
 
 export const ControlPanel = ({ 
   showTheory,
@@ -55,16 +37,7 @@ export const ControlPanel = ({
 
   return (
     <div className="flex items-center gap-2 mb-4">
-      {/* Theory Panel Toggle */}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => setShowTheory(!showTheory)}
-        className="h-7 w-7 relative group"
-      >
-        <PanelLeftOpen className="w-3 h-3" />
-        {renderTooltip('Show/Hide Theory')}
-      </Button>
+      
 
       {/* Path Type Controls */}
       <div className="flex gap-1">
@@ -167,6 +140,17 @@ export const ControlPanel = ({
           </>
         )}
       </div>
+
+{/* Theory Panel Toggle */}
+<Button
+        variant="ghost"
+        size="icon"
+        onClick={() => setShowTheory(!showTheory)}
+        className="h-7 w-7 relative group"
+      >
+        <PanelRightOpen className="w-3 h-3" />
+        {renderTooltip('Show/Hide Theory')}
+      </Button>
     </div>
   );
 };

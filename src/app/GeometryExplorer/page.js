@@ -11,6 +11,8 @@ import { MetricsPanel } from './components/MetricsPanel';
 import { useAnimation } from './hooks/useAnimation';
 import { useGeometryCalculations } from './hooks/useGeometryCalculations';
 import { InstructionsPanel } from './components/InstructionsPanel';
+import { PanelRightOpen } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const GeometryExplorer = () => {
   // Core state
@@ -165,92 +167,95 @@ const GeometryExplorer = () => {
   }, [isAnimating, activeGeometry, startPoint, endPoint]);
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-3">
-      <Card className="bg-white/50 backdrop-blur-sm">
-        <CardContent className="p-4">
-          {/* Control Panel */}
-          <ControlPanel
-            showTheory={showTheory}
-            setShowTheory={setShowTheory}
-            activeGeometry={activeGeometry}
-            setActiveGeometry={setActiveGeometry}
-            showGrid={showGrid}
-            setShowGrid={setShowGrid}
-            isBlockingMode={isBlockingMode}
-            setIsBlockingMode={setIsBlockingMode}
-            isAnimating={isAnimating}
-            isPaused={isPaused}
-            startAnimation={startAnimation}
-            pauseAnimation={pauseAnimation}
-            resumeAnimation={resumeAnimation}
-            resetAnimation={resetAnimation}
-          />
-          
-          {/* Main Grid Container */}
-          <div className="relative">
-            {/* Theory Panel */}
-            <AnimatePresence>
-              {showTheory && (
-                <TheoryPanel
-                  euclideanCalculation={() => euclideanCalculation(startPoint, endPoint)}
-                  taxicabCalculation={() => taxicabCalculation(startPoint, endPoint)}
-                  setShowTheory={setShowTheory}
+    <div className="min-h-screen flex justify-center mt-4" >
+      <div className="flex items-start gap-4">
+        {/* Main Content - Keep original width */}
+        <div className="w-[700px]">
+          <Card className="bg-white/50 backdrop-blur-sm">
+            <CardContent className="p-4">
+              {/* Keep original ControlPanel with the theory toggle */}
+              <ControlPanel
+                showTheory={showTheory}
+                setShowTheory={setShowTheory}
+                activeGeometry={activeGeometry}
+                setActiveGeometry={setActiveGeometry}
+                showGrid={showGrid}
+                setShowGrid={setShowGrid}
+                isBlockingMode={isBlockingMode}
+                setIsBlockingMode={setIsBlockingMode}
+                isAnimating={isAnimating}
+                isPaused={isPaused}
+                startAnimation={startAnimation}
+                pauseAnimation={pauseAnimation}
+                resumeAnimation={resumeAnimation}
+                resetAnimation={resetAnimation}
+              />
+              
+              {/* Main Grid Container */}
+              <div className="relative">
+                <Grid
+                  showGrid={showGrid}
+                  gridSize={gridSize}
+                  blockedStreets={blockedStreets}
+                  highlightedStreet={highlightedStreet}
+                  isBlockingMode={isBlockingMode}
+                  renderPaths={renderPaths}
+                  startPoint={startPoint}
+                  endPoint={endPoint}
+                  isDragging={isDragging}
+                  selectedPoint={selectedPoint}
+                  isAnimating={isAnimating}
+                  birdPosition={birdPosition}
+                  taxiPosition={taxiPosition}
+                  activeGeometry={activeGeometry}
+                  getBirdAngle={getBirdAngle}
+                  handleGridMouseDown={handleGridMouseDown}
+                  handleGridMouseMove={handleGridMouseMove}
+                  handleGridMouseUp={() => {
+                    setIsDragging(false);
+                    setSelectedPoint(null);
+                    setHighlightedStreet(null);
+                  }}
+                  handleGridMouseLeave={() => {
+                    setIsDragging(false);
+                    setSelectedPoint(null);
+                    setHighlightedStreet(null);
+                  }}
                 />
-              )}
-            </AnimatePresence>
+              </div>
 
-            {/* Grid Component */}
-            <Grid
-              showGrid={showGrid}
-              gridSize={gridSize}
-              blockedStreets={blockedStreets}
-              highlightedStreet={highlightedStreet}
-              isBlockingMode={isBlockingMode}
-              renderPaths={renderPaths}
-              startPoint={startPoint}
-              endPoint={endPoint}
-              isDragging={isDragging}
-              selectedPoint={selectedPoint}
-              isAnimating={isAnimating}
-              birdPosition={birdPosition}
-              taxiPosition={taxiPosition}
-              activeGeometry={activeGeometry}
-              getBirdAngle={getBirdAngle}
-              handleGridMouseDown={handleGridMouseDown}
-              handleGridMouseMove={handleGridMouseMove}
-              handleGridMouseUp={() => {
-                setIsDragging(false);
-                setSelectedPoint(null);
-                setHighlightedStreet(null);
-              }}
-              handleGridMouseLeave={() => {
-                setIsDragging(false);
-                setSelectedPoint(null);
-                setHighlightedStreet(null);
-              }}
-            />
-          </div>
+              {/* Bottom Panels */}
+              <div className="mt-4 grid grid-cols-2 gap-4">
+                <MetricsPanel
+                  calculateEuclideanDistance={calculateEuclideanDistance}
+                  calculateTaxicabDistance={calculateTaxicabDistance}
+                  startPoint={startPoint}
+                  endPoint={endPoint}
+                />
+                <InstructionsPanel
+                  isBlockingMode={isBlockingMode}
+                  isAnimating={isAnimating}
+                  activeGeometry={activeGeometry}
+                  blockedStreets={blockedStreets}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-          {/* Bottom Panels */}
-          <div className="mt-4 grid grid-cols-2 gap-4">
-            {/* Metrics Panel */}
-            <MetricsPanel
-              calculateEuclideanDistance={calculateEuclideanDistance}
-              calculateTaxicabDistance={calculateTaxicabDistance}
-              startPoint={startPoint}
-              endPoint={endPoint}
-            />
-            
-            {/* Instructions Panel */}
-            <InstructionsPanel
-              isBlockingMode={isBlockingMode}
-              isAnimating={isAnimating}
-              activeGeometry={activeGeometry}
-              blockedStreets={blockedStreets}
-            />
-          </div>
-        </CardContent>
-      </Card>
+        {/* Theory Panel */}
+        <AnimatePresence mode="wait">
+          {showTheory && (
+            <div className="w-64 shrink-0">
+              <TheoryPanel
+                euclideanCalculation={() => euclideanCalculation(startPoint, endPoint)}
+                taxicabCalculation={() => taxicabCalculation(startPoint, endPoint)}
+                setShowTheory={setShowTheory}
+              />
+            </div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
