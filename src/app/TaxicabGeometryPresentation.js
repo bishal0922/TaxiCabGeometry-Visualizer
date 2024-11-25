@@ -14,112 +14,107 @@ const TaxicabGeometryPresentation = () => {
       title: 'Taxicab Geometry',
       content: (
         <div className="space-y-6">
-        <div className="text-center mb-8">
-          <h2 className="text-xl font-semibold text-gray-600">Math 3301</h2>
-          <h3 className="text-lg font-medium text-gray-500">Bishal Giri</h3>
-        </div>
-        
-        <div className="grid grid-cols-2 gap-8">
-          <div className="space-y-4">
-            <h3 className="text-xl font-semibold">1. Introduction</h3>
-            <p className="text-lg leading-relaxed">
-              Taxicab geometry, introduced by Hermann Minkowski in the 19th century, is a form of 
-              geometry in which the usual distance function of metric of Euclidean geometry is replaced 
-              by a new metric in which the distance between two points is the sum of the absolute 
-              differences of their cartesian coordinates. It presents an alternative way of measuring 
-              distances that better serve real-world urban practices. It was named after how taxis 
-              navigate city streets, this variation of geometry provides a more practical approach to 
-              solving certain urban geography problems.
-            </p>
-            
-            <h3 className="text-xl font-semibold mt-6">1.1 The Distance Formula</h3>
-            <p className="text-lg leading-relaxed">
-              Distance formula in Taxicab geometry is very different from the traditional Euclidean 
-              geometry. In taxicab geometry, the distance between two points P(x₁, y₁) and Q(x₂, y₂) 
-              is given by:
-            </p>
-            
-            <div className="p-4 bg-gray-50 rounded-lg font-mono text-lg">
-              dT(P, Q) = |x₂ - x₁| + |y₂ - y₁|
-            </div>
-            
-            <p className="text-lg">This differs from the Euclidean distance formula:</p>
-            
-            <div className="p-4 bg-gray-50 rounded-lg font-mono text-lg">
-              dE(P, Q) = √[(x₂ - x₁)² + (y₂ - y₁)²]
-            </div>
-            
-            <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-              <p className="font-semibold mb-2">Example:</p>
-              <p>For points P(1, 1) and Q(4, 4):</p>
-              <div className="space-y-2">
-                <p><span className="font-semibold">Taxicab distance:</span><br/>
-                  dT(P, Q) = |x₂ - x₁| + |y₂ - y₁| = |4 - 1| + |4 - 1| = 3 + 3 = 6 units</p>
-                <p><span className="font-semibold">Euclidean distance:</span><br/>
-                  dE(P, Q) = √[(4 - 1)² + (4 - 1)²] = √18 ≈ 4.24 units</p>
-              </div>
-            </div>
+          <div className="text-center mb-8">
+            <h2 className="text-xl font-semibold text-gray-600">Math 3301</h2>
+            <h3 className="text-lg font-medium text-gray-500">Bishal Giri</h3>
           </div>
           
-          <div className="space-y-6">
-            <div className="flex flex-col items-center space-y-2">
-              <img 
-                src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTGjXQ3CoRagGgLNSMmHQuRUFq8NypkBtPaB55cAl9HXkhcopFhnOxZo8jhh1mSzDk_U0z7iRJ-YrLunaM"
-                alt="Hermann Minkowski"
-                className="rounded-lg shadow-lg max-w-[300px]"
-              />
-              <p className="text-sm text-gray-600 italic">Hermann Minkowski (1864-1909)</p>
+          <div className="grid grid-cols-2 gap-8">
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">1. Introduction</h3>
+              <p className="text-lg leading-relaxed">
+                Taxicab geometry, introduced by Hermann Minkowski in the 19th century, is a form of 
+                geometry in which the usual distance function of metric of Euclidean geometry is replaced 
+                by a new metric in which the distance between two points is the sum of the absolute 
+                differences of their cartesian coordinates. It presents an alternative way of measuring 
+                distances that better serve real-world urban practices. It was named after how taxis 
+                navigate city streets, this variation of geometry provides a more practical approach to 
+                solving certain urban geography problems.
+              </p>
+              
+              <h3 className="text-xl font-semibold mt-6">1.1 The Distance Formula</h3>
+              <p className="text-lg leading-relaxed">
+                Distance formula in Taxicab geometry is very different from the traditional Euclidean 
+                geometry. In taxicab geometry, the distance between two points P(x₁, y₁) and Q(x₂, y₂) 
+                is given by:
+              </p>
+              
+              <div className="p-4 bg-gray-50 rounded-lg font-mono text-lg">
+                dT(P, Q) = |x₂ - x₁| + |y₂ - y₁|
+              </div>
+              
+              <p className="text-lg">This differs from the Euclidean distance formula:</p>
+              
+              <div className="p-4 bg-gray-50 rounded-lg font-mono text-lg">
+                dE(P, Q) = √[(x₂ - x₁)² + (y₂ - y₁)²]
+              </div>
+              
+              <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                <p className="font-semibold mb-2">Example:</p>
+                <p>For points P(1, 1) and Q(4, 4):</p>
+                <div className="space-y-2">
+                  <p><span className="font-semibold">Taxicab distance:</span><br/>
+                    dT(P, Q) = |x₂ - x₁| + |y₂ - y₁| = |4 - 1| + |4 - 1| = 3 + 3 = 6 units</p>
+                  <p><span className="font-semibold">Euclidean distance:</span><br/>
+                    dE(P, Q) = √[(4 - 1)² + (4 - 1)²] = √18 ≈ 4.24 units</p>
+                </div>
+              </div>
             </div>
+            
+            <div className="space-y-6">
+              <div className="flex flex-col items-center space-y-2">
+                <img 
+                src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTGjXQ3CoRagGgLNSMmHQuRUFq8NypkBtPaB55cAl9HXkhcopFhnOxZo8jhh1mSzDk_U0z7iRJ-YrLunaM"
+                  alt="Hermann Minkowski"
+                  className="rounded-lg shadow-lg max-w-[300px]"
+                />
+                <p className="text-sm text-gray-600 italic">Hermann Minkowski (1864-1909)</p>
+              </div>
 
-            <svg 
-              viewBox="0 0 200 200" 
-              className="w-full h-auto border rounded-lg shadow-sm bg-white p-4"
-            >
-              {/* Grid lines */}
-              {[...Array(8)].map((_, i) => (
-                <React.Fragment key={i}>
-                  <line 
-                    x1={25 * i + 25} y1="25" x2={25 * i + 25} y2="175"
-                    stroke="#eee" strokeWidth="1"
-                  />
-                  <line 
-                    x1="25" y1={25 * i + 25} x2="175" y2={25 * i + 25}
-                    stroke="#eee" strokeWidth="1"
-                  />
-                </React.Fragment>
-              ))}
-              
-              {/* Taxicab path */}
-              <path
-                d="M 50 150 L 50 50 L 150 50"
-                stroke="blue"
-                strokeWidth="2"
-                fill="none"
-              />
-              <text x="80" y="45" fill="blue" fontSize="12">Taxicab path</text>
-              
-              {/* Euclidean path */}
-              <line
-                x1="50" y1="150"
-                x2="150" y2="50"
-                stroke="red"
-                strokeWidth="2"
-              />
-              <text x="70" y="120" fill="red" fontSize="12">Euclidean path</text>
-              
-              {/* Points */}
-              <circle cx="50" cy="150" r="4" fill="black" />
-              <text x="40" y="165" fontSize="12">P</text>
-              
-              <circle cx="150" cy="50" r="4" fill="black" />
-              <text x="160" y="55" fontSize="12">Q</text>
-              
-              {/* Origin */}
-              <text x="20" y="180" fill="green" fontSize="12">0,0</text>
-            </svg>
+              <svg 
+                viewBox="0 0 200 200" 
+                className="w-full h-auto border rounded-lg shadow-sm bg-white p-4"
+              >
+                {[...Array(8)].map((_, i) => (
+                  <React.Fragment key={i}>
+                    <line 
+                      x1={25 * i + 25} y1="25" x2={25 * i + 25} y2="175"
+                      stroke="#eee" strokeWidth="1"
+                    />
+                    <line 
+                      x1="25" y1={25 * i + 25} x2="175" y2={25 * i + 25}
+                      stroke="#eee" strokeWidth="1"
+                    />
+                  </React.Fragment>
+                ))}
+                
+                <path
+                  d="M 50 150 L 50 50 L 150 50"
+                  stroke="blue"
+                  strokeWidth="2"
+                  fill="none"
+                />
+                <text x="80" y="45" fill="blue" fontSize="12">Taxicab path</text>
+                
+                <line
+                  x1="50" y1="150"
+                  x2="150" y2="50"
+                  stroke="red"
+                  strokeWidth="2"
+                />
+                <text x="70" y="120" fill="red" fontSize="12">Euclidean path</text>
+                
+                <circle cx="50" cy="150" r="4" fill="black" />
+                <text x="40" y="165" fontSize="12">P</text>
+                
+                <circle cx="150" cy="50" r="4" fill="black" />
+                <text x="160" y="55" fontSize="12">Q</text>
+                
+                <text x="20" y="180" fill="green" fontSize="12">0,0</text>
+              </svg>
+            </div>
           </div>
         </div>
-      </div>
       )
     },
     {
@@ -135,7 +130,7 @@ const TaxicabGeometryPresentation = () => {
                 <ul className="space-y-2">
                   <li>• Measures the shortest possible path between two points</li>
                   <li>• Like a bird flying directly to its destination</li>
-                  <li>• The familiar "as the crow flies" distance</li>
+                  <li>• The familiar &quot;as the crow flies&quot; distance</li>
                 </ul>
               </div>
             </div>
@@ -161,7 +156,7 @@ const TaxicabGeometryPresentation = () => {
               </p>
               <p>
                 <span className="font-semibold">Distance Calculation:</span> Taxicab distance is always greater than or equal to 
-                Euclidean distance. They're equal only when points align perfectly horizontally or vertically.
+                Euclidean distance. They&apos;re equal only when points align perfectly horizontally or vertically.
               </p>
               <p>
                 <span className="font-semibold">Real-World Application:</span> The polling station problem demonstrates how 
