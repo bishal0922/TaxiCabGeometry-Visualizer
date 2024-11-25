@@ -97,7 +97,7 @@ export const TheoryPanel = ({
           <li>• The <span className="text-blue-600">Euclidean distance</span> represents the shortest possible path between two points.</li>
           <li>• The <span className="text-red-600">Manhattan distance</span> represents movement restricted to a grid, like city streets.</li>
           <li>• The Manhattan distance is always greater than or equal to the Euclidean distance.</li>
-          <li>• They're equal only when the points are aligned horizontally or vertically.</li>
+          <li>• They are equal only when the points are aligned horizontally or vertically.</li>
         </ul>
       </div>
       </CardContent>
