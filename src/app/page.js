@@ -1,10 +1,8 @@
-import Image from "next/image";
+// src/app/page.js
+"use client"
+
+import TaxicabGeometryPresentation from './TaxicabGeometryPresentation';
 
 export default function Home() {
-  return (
-    <>
-      welcome
-    </>
-    
-  );
+  return <TaxicabGeometryPresentation />;
 }
