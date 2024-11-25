@@ -14,75 +14,110 @@ const TaxicabGeometryPresentation = () => {
       title: 'What is Taxicab Geometry?',
       content: (
         <div className="space-y-6">
-        <div className="text-center mb-8">
-          <h2 className="text-xl font-semibold text-gray-600">Math 3301</h2>
-          <h3 className="text-lg font-medium text-gray-500">Bishal Giri</h3>
-        </div>
-        
-        <div className="grid grid-cols-2 gap-8">
-          <div className="space-y-4">
-            <h3 className="text-xl font-semibold">Introduction</h3>
-            <p className="text-lg leading-relaxed">
-              Imagine you&apos;re driving a taxi in a city. You can&apos;t drive through buildings - you have to follow the streets. 
-              This is exactly what taxicab geometry is about! It measures distances the way a car would actually drive through 
-              city streets, not as the crow flies.
-            </p>
-            
-            <h3 className="text-xl font-semibold mt-6">How Do We Calculate Distance?</h3>
-            <p className="text-lg leading-relaxed">
-              In normal (Euclidean) geometry, we measure straight-line distance. But in taxicab geometry, we add up 
-              the total blocks we need to travel horizontally and vertically.
-            </p>
-            
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <p className="font-semibold mb-2">Simple Example:</p>
-              <p>Let&apos;s say you want to go from Point A(0,0) to Point B(3,2):</p>
-              <p>• You need to go right 3 blocks: 3 units</p>
-              <p>• You need to go up 2 blocks: 2 units</p>
-              <p>• Total distance = 3 + 2 = 5 blocks</p>
+      <div className="text-center mb-8">
+        <h2 className="text-xl font-semibold text-gray-600">Math 3301</h2>
+        <h3 className="text-lg font-medium text-gray-500">Bishal Giri</h3>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-8">
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold">Introduction</h3>
+          <p className="text-lg leading-relaxed">
+            Taxicab geometry, introduced by Hermann Minkowski in the 19th century, is a form of
+            geometry that measures distance differently from what we&apos;re used to. Instead of measuring
+            straight-line distances, it adds up the absolute differences between coordinates.
+          </p>
+          
+          <blockquote className="border-l-4 border-blue-500 pl-4 italic text-gray-700 my-4">
+            &quot;It presents an alternative way of measuring distances that better serve real-world urban practices. 
+            It was named after how taxis navigate city streets, providing a more practical approach to 
+            solving urban geography problems.&quot;
+          </blockquote>
+          
+          <div className="flex items-center space-x-4 mb-4">
+            <img 
+              src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTGjXQ3CoRagGgLNSMmHQuRUFq8NypkBtPaB55cAl9HXkhcopFhnOxZo8jhh1mSzDk_U0z7iRJ-YrLunaM"
+              alt="Hermann Minkowski"
+              className="w-32 h-40 object-cover rounded-lg shadow-md"
+            />
+            <div>
+              <p className="text-sm text-gray-600 italic">Hermann Minkowski (1864-1909)</p>
+              <p className="text-sm text-gray-500">The mathematician who introduced taxicab geometry</p>
             </div>
           </div>
-          
-          <div>
-            <svg viewBox="0 0 200 200" className="w-full h-auto border rounded-lg shadow-sm bg-white p-4">
-              {[...Array(8)].map((_, i) => (
-                <React.Fragment key={i}>
-                  <line 
-                    x1={25 * i + 25} y1="25" x2={25 * i + 25} y2="175"
-                    stroke="#eee" strokeWidth="1"
-                  />
-                  <line 
-                    x1="25" y1={25 * i + 25} x2="175" y2={25 * i + 25}
-                    stroke="#eee" strokeWidth="1"
-                  />
-                </React.Fragment>
-              ))}
-              
-              <path
-                d="M 50 150 L 50 50 L 150 50"
-                stroke="blue"
-                strokeWidth="2"
-                fill="none"
-              />
-              <text x="80" y="45" fill="blue" fontSize="12">Street Route</text>
-              
-              <line
-                x1="50" y1="150"
-                x2="150" y2="50"
-                stroke="red"
-                strokeWidth="2"
-              />
-              <text x="70" y="120" fill="red" fontSize="12">Direct Route</text>
-              
-              <circle cx="50" cy="150" r="4" fill="black" />
-              <text x="40" y="165" fontSize="12">Start</text>
-              
-              <circle cx="150" cy="50" r="4" fill="black" />
-              <text x="160" y="55" fontSize="12">End</text>
-            </svg>
+
+          {/* <h3 className="text-xl font-semibold mt-6">Simple Explanation</h3> */}
+          <p className="text-lg leading-relaxed">
+            Think of it this way: When you&apos;re driving in a city, you can&apos;t drive straight through 
+            buildings - you have to follow the streets. This is exactly what taxicab geometry measures!
+          </p>
+        </div>
+        
+        <div className="space-y-6">
+          <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+            <h4 className="font-semibold mb-3">How We Calculate Distance</h4>
+            <p className="mb-4">Between any two points P(x₁, y₁) and Q(x₂, y₂):</p>
+            
+            <div className="bg-white p-4 rounded mb-4">
+              <p className="font-mono text-lg mb-2">Taxicab Distance:</p>
+              <p className="font-mono">dT(P, Q) = |x₂ - x₁| + |y₂ - y₁|</p>
+            </div>
+            
+            <div className="bg-white p-4 rounded">
+              <p className="font-mono text-lg mb-2">Regular (Euclidean) Distance:</p>
+              <p className="font-mono">dE(P, Q) = √[(x₂ - x₁)² + (y₂ - y₁)²]</p>
+            </div>
           </div>
+
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <h4 className="font-semibold mb-2">Example Calculation:</h4>
+            <p>Going from P(1, 1) to Q(4, 4):</p>
+            <ul className="space-y-2 mt-2">
+              <li>• Taxicab: |4-1| + |4-1| = 3 + 3 = 6 blocks</li>
+              <li>• Regular: √[(4-1)² + (4-1)²] = √18 ≈ 4.24 units</li>
+            </ul>
+          </div>
+
+          <svg viewBox="0 0 200 200" className="w-full h-auto border rounded-lg shadow-sm bg-white ">
+            {/* Grid and path visualization remains the same */}
+            {[...Array(8)].map((_, i) => (
+              <React.Fragment key={i}>
+                <line 
+                  x1={25 * i + 25} y1="25" x2={25 * i + 25} y2="175"
+                  stroke="#eee" strokeWidth="1"
+                />
+                <line 
+                  x1="25" y1={25 * i + 25} x2="175" y2={25 * i + 25}
+                  stroke="#eee" strokeWidth="1"
+                />
+              </React.Fragment>
+            ))}
+            
+            <path
+              d="M 50 150 L 50 50 L 150 50"
+              stroke="blue"
+              strokeWidth="2"
+              fill="none"
+            />
+            <text x="80" y="45" fill="blue" fontSize="12">Street Route</text>
+            
+            <line
+              x1="50" y1="150"
+              x2="150" y2="50"
+              stroke="red"
+              strokeWidth="2"
+            />
+            <text x="70" y="120" fill="red" fontSize="12">Direct Route</text>
+            
+            <circle cx="50" cy="150" r="4" fill="black" />
+            <text x="40" y="165" fontSize="12">P(1,1)</text>
+            
+            <circle cx="150" cy="50" r="4" fill="black" />
+            <text x="160" y="55" fontSize="12">Q(4,4)</text>
+          </svg>
         </div>
       </div>
+    </div>
       )
     },
     {
@@ -413,7 +448,7 @@ const TaxicabGeometryPresentation = () => {
                 <div className="p-6 bg-white rounded-lg shadow-sm border">
                   <h3 className="font-semibold text-lg mb-3">Walking to School</h3>
                   <p>
-                    When you walk to school, you follow sidewalks and streets. You can't walk 
+                    When you walk to school, you follow sidewalks and streets. You can&apos;t walk 
                     straight through buildings. Taxicab geometry helps plan the best route.
                   </p>
                 </div>
