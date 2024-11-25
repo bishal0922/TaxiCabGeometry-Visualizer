@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import GeometryExplorer from './GeometryExplorer/page';
@@ -492,6 +492,21 @@ const TaxicabGeometryPresentation = () => {
             Move the points around to see how taxicab distance compares to straight-line distance!
           </p>
           <GeometryExplorer />
+
+          <div className="mt-8 p-4 bg-blue-50 rounded-lg">
+            <h3 className="text-lg font-semibold mb-4">Want to Learn More?</h3>
+            <div className="flex items-center gap-2">
+              <FileText className="w-5 h-5 text-blue-600" />
+              <a 
+                href="https://black-moselle-59.tiiny.site"
+                className="text-blue-600 hover:text-blue-800 underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Full Report Here
+              </a>
+            </div>
+          </div>
         </div>
       )
     }
