@@ -11,7 +11,7 @@ const TaxicabGeometryPresentation = () => {
   const sections = [
     {
       id: 'intro',
-      title: 'Taxicab Geometry',
+      title: 'What is Taxicab Geometry?',
       content: (
         <div className="space-y-6">
           <div className="text-center mb-8">
@@ -21,60 +21,30 @@ const TaxicabGeometryPresentation = () => {
           
           <div className="grid grid-cols-2 gap-8">
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold">1. Introduction</h3>
+              <h3 className="text-xl font-semibold">Simple Introduction</h3>
               <p className="text-lg leading-relaxed">
-                Taxicab geometry, introduced by Hermann Minkowski in the 19th century, is a form of 
-                geometry in which the usual distance function of metric of Euclidean geometry is replaced 
-                by a new metric in which the distance between two points is the sum of the absolute 
-                differences of their cartesian coordinates. It presents an alternative way of measuring 
-                distances that better serve real-world urban practices. It was named after how taxis 
-                navigate city streets, this variation of geometry provides a more practical approach to 
-                solving certain urban geography problems.
+                Imagine you're driving a taxi in a city. You can't drive through buildings - you have to follow the streets. 
+                This is exactly what taxicab geometry is about! It measures distances the way a car would actually drive through 
+                city streets, not as the crow flies.
               </p>
               
-              <h3 className="text-xl font-semibold mt-6">1.1 The Distance Formula</h3>
+              <h3 className="text-xl font-semibold mt-6">How Do We Calculate Distance?</h3>
               <p className="text-lg leading-relaxed">
-                Distance formula in Taxicab geometry is very different from the traditional Euclidean 
-                geometry. In taxicab geometry, the distance between two points P(x₁, y₁) and Q(x₂, y₂) 
-                is given by:
+                In normal (Euclidean) geometry, we measure straight-line distance. But in taxicab geometry, we add up 
+                the total blocks we need to travel horizontally and vertically.
               </p>
               
-              <div className="p-4 bg-gray-50 rounded-lg font-mono text-lg">
-                dT(P, Q) = |x₂ - x₁| + |y₂ - y₁|
-              </div>
-              
-              <p className="text-lg">This differs from the Euclidean distance formula:</p>
-              
-              <div className="p-4 bg-gray-50 rounded-lg font-mono text-lg">
-                dE(P, Q) = √[(x₂ - x₁)² + (y₂ - y₁)²]
-              </div>
-              
-              <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-                <p className="font-semibold mb-2">Example:</p>
-                <p>For points P(1, 1) and Q(4, 4):</p>
-                <div className="space-y-2">
-                  <p><span className="font-semibold">Taxicab distance:</span><br/>
-                    dT(P, Q) = |x₂ - x₁| + |y₂ - y₁| = |4 - 1| + |4 - 1| = 3 + 3 = 6 units</p>
-                  <p><span className="font-semibold">Euclidean distance:</span><br/>
-                    dE(P, Q) = √[(4 - 1)² + (4 - 1)²] = √18 ≈ 4.24 units</p>
-                </div>
+              <div className="p-4 bg-blue-50 rounded-lg">
+                <p className="font-semibold mb-2">Simple Example:</p>
+                <p>Let's say you want to go from Point A(0,0) to Point B(3,2):</p>
+                <p>• You need to go right 3 blocks: 3 units</p>
+                <p>• You need to go up 2 blocks: 2 units</p>
+                <p>• Total distance = 3 + 2 = 5 blocks</p>
               </div>
             </div>
             
-            <div className="space-y-6">
-              <div className="flex flex-col items-center space-y-2">
-                <img 
-                src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTGjXQ3CoRagGgLNSMmHQuRUFq8NypkBtPaB55cAl9HXkhcopFhnOxZo8jhh1mSzDk_U0z7iRJ-YrLunaM"
-                  alt="Hermann Minkowski"
-                  className="rounded-lg shadow-lg max-w-[300px]"
-                />
-                <p className="text-sm text-gray-600 italic">Hermann Minkowski (1864-1909)</p>
-              </div>
-
-              <svg 
-                viewBox="0 0 200 200" 
-                className="w-full h-auto border rounded-lg shadow-sm bg-white p-4"
-              >
+            <div>
+              <svg viewBox="0 0 200 200" className="w-full h-auto border rounded-lg shadow-sm bg-white p-4">
                 {[...Array(8)].map((_, i) => (
                   <React.Fragment key={i}>
                     <line 
@@ -94,7 +64,7 @@ const TaxicabGeometryPresentation = () => {
                   strokeWidth="2"
                   fill="none"
                 />
-                <text x="80" y="45" fill="blue" fontSize="12">Taxicab path</text>
+                <text x="80" y="45" fill="blue" fontSize="12">Street Route</text>
                 
                 <line
                   x1="50" y1="150"
@@ -102,15 +72,13 @@ const TaxicabGeometryPresentation = () => {
                   stroke="red"
                   strokeWidth="2"
                 />
-                <text x="70" y="120" fill="red" fontSize="12">Euclidean path</text>
+                <text x="70" y="120" fill="red" fontSize="12">Direct Route</text>
                 
                 <circle cx="50" cy="150" r="4" fill="black" />
-                <text x="40" y="165" fontSize="12">P</text>
+                <text x="40" y="165" fontSize="12">Start</text>
                 
                 <circle cx="150" cy="50" r="4" fill="black" />
-                <text x="160" y="55" fontSize="12">Q</text>
-                
-                <text x="20" y="180" fill="green" fontSize="12">0,0</text>
+                <text x="160" y="55" fontSize="12">End</text>
               </svg>
             </div>
           </div>
@@ -118,121 +86,375 @@ const TaxicabGeometryPresentation = () => {
       )
     },
     {
-      id: 'comparison',
-      title: 'Understanding the Difference',
-      content: (
-        <div className="space-y-6">
-          <div className="grid grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-blue-600">Euclidean Geometry</h3>
-              <div className="p-6 bg-blue-50 rounded-lg border border-blue-100">
-                <p className="font-mono text-lg mb-4">dE(P, Q) = √[(x₂ - x₁)² + (y₂ - y₁)²]</p>
-                <ul className="space-y-2">
-                  <li>• Measures the shortest possible path between two points</li>
-                  <li>• Like a bird flying directly to its destination</li>
-                  <li>• The familiar &quot;as the crow flies&quot; distance</li>
-                </ul>
+        id: 'comparison',
+        title: 'Taxicab vs Regular Distance',
+        content: (
+            <div className="space-y-8">
+      <div className="bg-white p-6 rounded-lg shadow-sm border">
+        <h3 className="text-xl font-semibold mb-4">Understanding the Formulas</h3>
+        
+        <div className="grid grid-cols-2 gap-8">
+          <div className="space-y-4">
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h4 className="font-semibold mb-2">Taxicab Distance</h4>
+              <div className="font-mono text-lg mb-2">
+                dT = |x₂ - x₁| + |y₂ - y₁|
               </div>
-            </div>
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-red-600">Taxicab Geometry</h3>
-              <div className="p-6 bg-red-50 rounded-lg border border-red-100">
-                <p className="font-mono text-lg mb-4">dT(P, Q) = |x₂ - x₁| + |y₂ - y₁|</p>
-                <ul className="space-y-2">
-                  <li>• Measures distance along horizontal and vertical paths</li>
-                  <li>• Like a taxi navigating city blocks</li>
-                  <li>• Reflects real-world urban movement constraints</li>
-                </ul>
-              </div>
+              <p className="text-sm">
+                We add the absolute horizontal and vertical distances
+              </p>
             </div>
           </div>
           
-          <div className="mt-8 p-6 bg-gray-50 rounded-lg">
-            <h3 className="text-lg font-semibold mb-4">Key Differences:</h3>
-            <div className="space-y-3">
-              <p>
-                <span className="font-semibold">Path Options:</span> While Euclidean geometry allows movement in any direction,
-                taxicab geometry restricts movement to horizontal and vertical paths, mimicking city street layouts.
-              </p>
-              <p>
-                <span className="font-semibold">Distance Calculation:</span> Taxicab distance is always greater than or equal to 
-                Euclidean distance. They&apos;re equal only when points align perfectly horizontally or vertically.
-              </p>
-              <p>
-                <span className="font-semibold">Real-World Application:</span> The polling station problem demonstrates how 
-                taxicab geometry better models real-world scenarios where movement is restricted by urban infrastructure.
+          <div className="space-y-4">
+            <div className="bg-red-50 p-4 rounded-lg">
+              <h4 className="font-semibold mb-2">Euclidean (Regular) Distance</h4>
+              <div className="font-mono text-lg mb-2">
+                dE = √[(x₂ - x₁)² + (y₂ - y₁)²]
+              </div>
+              <p className="text-sm">
+                We use the Pythagorean theorem for straight-line distance
               </p>
             </div>
           </div>
         </div>
-      )
-    },
-    {
-      id: 'applications',
-      title: 'Real-World Applications',
-      content: (
+      </div>
+
+      <div className="grid grid-cols-2 gap-8">
         <div className="space-y-6">
-          <p className="text-lg">
-            Taxicab geometry helps solve real-world problems where movement is restricted to paths along a grid:
-          </p>
-          
-          <div className="grid grid-cols-2 gap-8">
-            <div className="space-y-6">
-              <div className="p-6 bg-white rounded-lg shadow-sm border">
-                <h3 className="font-semibold text-lg mb-3">Emergency Services</h3>
-                <p>
-                  Helps position ambulance stations and fire stations to minimize response 
-                  time when vehicles must follow city streets.
-                </p>
-              </div>
-              
-              <div className="p-6 bg-white rounded-lg shadow-sm border">
-                <h3 className="font-semibold text-lg mb-3">School Bus Routes</h3>
-                <p>
-                  Plans efficient routes for school buses that must navigate through city 
-                  blocks to pick up students.
-                </p>
-              </div>
-            </div>
+          <div className="bg-white p-6 rounded-lg shadow-sm border">
+            <h4 className="text-lg font-semibold mb-4">Example 1: Diagonal Path</h4>
             
-            <div className="space-y-6">
-              <div className="p-6 bg-white rounded-lg shadow-sm border">
-                <h3 className="font-semibold text-lg mb-3">Polling Stations</h3>
-                <p>
-                  Determines the best locations for voting centers to minimize the walking 
-                  distance for all residents in a neighborhood.
-                </p>
+            <svg viewBox="0 0 200 200" className="w-full h-48 mb-4">
+              {/* Grid */}
+              {[...Array(6)].map((_, i) => (
+                <React.Fragment key={i}>
+                  <line 
+                    x1={40 * i + 20} y1="20" x2={40 * i + 20} y2="180"
+                    stroke="#eee" strokeWidth="1"
+                  />
+                  <line 
+                    x1="20" y1={40 * i + 20} x2="180" y2={40 * i + 20}
+                    stroke="#eee" strokeWidth="1"
+                  />
+                </React.Fragment>
+              ))}
+              
+              {/* Paths */}
+              <path
+                d="M 60 140 L 60 60 L 140 60"
+                stroke="blue"
+                strokeWidth="2"
+                fill="none"
+              />
+              <line
+                x1="60" y1="140"
+                x2="140" y2="60"
+                stroke="red"
+                strokeWidth="2"
+              />
+              
+              {/* Points */}
+              <circle cx="60" cy="140" r="4" fill="black" />
+              <text x="45" y="155" fontSize="12">A(1,1)</text>
+              
+              <circle cx="140" cy="60" r="4" fill="black" />
+              <text x="145" y="55" fontSize="12">B(4,4)</text>
+            </svg>
+            
+            <div className="space-y-4">
+              <div className="bg-blue-50 p-3 rounded">
+                <p className="font-semibold">Taxicab Distance:</p>
+                <div className="pl-4 space-y-1 font-mono">
+                  <p>dT = |x₂ - x₁| + |y₂ - y₁|</p>
+                  <p>dT = |4 - 1| + |4 - 1|</p>
+                  <p>dT = 3 + 3 = 6 units</p>
+                </div>
               </div>
               
-              <div className="p-6 bg-white rounded-lg shadow-sm border">
-                <h3 className="font-semibold text-lg mb-3">Delivery Services</h3>
-                <p>
-                  Helps delivery companies plan routes and estimate delivery times when 
-                  drivers must follow street patterns.
-                </p>
+              <div className="bg-red-50 p-3 rounded">
+                <p className="font-semibold">Euclidean Distance:</p>
+                <div className="pl-4 space-y-1 font-mono">
+                  <p>dE = √[(4-1)² + (4-1)²]</p>
+                  <p>dE = √[9 + 9]</p>
+                  <p>dE = √18 ≈ 4.24 units</p>
+                </div>
               </div>
             </div>
           </div>
-          
-          <div className="bg-yellow-50 p-4 rounded-lg mt-4">
-            <p className="text-sm">
-              In all these cases, taxicab geometry provides more accurate distance calculations 
-              than Euclidean geometry because it accounts for the actual paths people and 
-              vehicles must take.
-            </p>
+        </div>
+        
+        <div className="space-y-6">
+          <div className="bg-white p-6 rounded-lg shadow-sm border">
+            <h4 className="text-lg font-semibold mb-4">Example 2: Straight Path</h4>
+            
+            <svg viewBox="0 0 200 200" className="w-full h-48 mb-4">
+              {/* Grid */}
+              {[...Array(6)].map((_, i) => (
+                <React.Fragment key={i}>
+                  <line 
+                    x1={40 * i + 20} y1="20" x2={40 * i + 20} y2="180"
+                    stroke="#eee" strokeWidth="1"
+                  />
+                  <line 
+                    x1="20" y1={40 * i + 20} x2="180" y2={40 * i + 20}
+                    stroke="#eee" strokeWidth="1"
+                  />
+                </React.Fragment>
+              ))}
+              
+              {/* Path */}
+              <line
+                x1="60" y1="100"
+                x2="140" y2="100"
+                stroke="purple"
+                strokeWidth="2"
+              />
+              
+              {/* Points */}
+              <circle cx="60" cy="100" r="4" fill="black" />
+              <text x="45" y="115" fontSize="12">A(1,3)</text>
+              
+              <circle cx="140" cy="100" r="4" fill="black" />
+              <text x="145" y="115" fontSize="12">B(4,3)</text>
+            </svg>
+            
+            <div className="space-y-4">
+              <div className="bg-blue-50 p-3 rounded">
+                <p className="font-semibold">Taxicab Distance:</p>
+                <div className="pl-4 space-y-1 font-mono">
+                  <p>dT = |x₂ - x₁| + |y₂ - y₁|</p>
+                  <p>dT = |4 - 1| + |3 - 3|</p>
+                  <p>dT = 3 + 0 = 3 units</p>
+                </div>
+              </div>
+              
+              <div className="bg-red-50 p-3 rounded">
+                <p className="font-semibold">Euclidean Distance:</p>
+                <div className="pl-4 space-y-1 font-mono">
+                  <p>dE = √[(4-1)² + (3-3)²]</p>
+                  <p>dE = √[9 + 0]</p>
+                  <p>dE = 3 units</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      )
-    },
+      </div>
+
+      <div className="bg-yellow-50 p-6 rounded-lg">
+        <h4 className="text-lg font-semibold mb-3">Important Properties</h4>
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <h5 className="font-semibold mb-2">When are they different?</h5>
+            <ul className="list-disc pl-6 space-y-2">
+              <li>When moving diagonally</li>
+              <li>Taxicab distance is always equal to or larger</li>
+              <li>Biggest difference occurs at 45° angles</li>
+            </ul>
+          </div>
+          <div>
+            <h5 className="font-semibold mb-2">When are they the same?</h5>
+            <ul className="list-disc pl-6 space-y-2">
+              <li>When moving only horizontally</li>
+              <li>When moving only vertically</li>
+              <li>When no diagonal movement is needed</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+        )
+      },
+   
+    {
+        id: 'polling-example',
+        title: 'Solving a Real Problem: Where to Put Voting Stations?',
+        content: (
+            <div className="space-y-8">
+            {/* Introduction Card */}
+            <Card>
+              <CardContent className="p-6">
+                <p className="text-lg text-gray-700">
+                  Imagine you&apos;re in charge of setting up voting stations in a small town. You need to place them 
+                  so everyone can reach a station easily by walking along the streets.
+                </p>
+              </CardContent>
+            </Card>
+      
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Setup Information */}
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-semibold mb-4">The Setup</h3>
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <h4 className="font-semibold">Buildings</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <h5 className="font-medium text-gray-700">Lower Area:</h5>
+                          <ul className="list-disc pl-4 space-y-1">
+                            <li>A at (1,1)</li>
+                            <li>B at (4,1)</li>
+                            <li>C at (2,3)</li>
+                          </ul>
+                        </div>
+                        <div>
+                          <h5 className="font-medium text-gray-700">Upper Area:</h5>
+                          <ul className="list-disc pl-4 space-y-1">
+                            <li>D at (5,3)</li>
+                            <li>E at (1,5)</li>
+                            <li>F at (4,5)</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div>
+                      <h4 className="font-semibold">Constraints</h4>
+                      <ul className="list-disc pl-4 space-y-1">
+                        <li>Can only set up 2 stations</li>
+                        <li>People must walk along streets</li>
+                        <li>Want to minimize walking distance</li>
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+      
+              {/* Solution Visualization */}
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-semibold mb-4">Our Solution</h3>
+                  <svg viewBox="0 0 200 200" className="w-full mb-4">
+                    {/* Grid */}
+                    {[...Array(6)].map((_, i) => (
+                      <React.Fragment key={i}>
+                        <line 
+                          x1={33.3 * i + 33.3} y1="33.3" x2={33.3 * i + 33.3} y2="166.7"
+                          stroke="#eee" strokeWidth="1"
+                        />
+                        <line 
+                          x1="33.3" y1={33.3 * i + 33.3} x2="166.7" y2={33.3 * i + 33.3}
+                          stroke="#eee" strokeWidth="1"
+                        />
+                      </React.Fragment>
+                    ))}
+                    
+                    {/* Buildings */}
+                    <circle cx="50" cy="150" r="4" fill="#4B5563" />
+                    <circle cx="150" cy="150" r="4" fill="#4B5563" />
+                    <circle cx="50" cy="100" r="4" fill="#4B5563" />
+                    <circle cx="150" cy="100" r="4" fill="#4B5563" />
+                    <circle cx="50" cy="50" r="4" fill="#4B5563" />
+                    <circle cx="150" cy="50" r="4" fill="#4B5563" />
+                    
+                    {/* Polling Stations */}
+                    <circle cx="100" cy="125" r="6" fill="#EF4444" />
+                    <circle cx="100" cy="75" r="6" fill="#EF4444" />
+                  </svg>
+                  
+                  <div className="text-sm text-gray-600">
+                    • Gray dots: Buildings
+                    <br />
+                    • Red dots: Polling stations
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+      
+            {/* Results */}
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-4">Results</h3>
+                
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-semibold mb-2">Walking Distances to Station 1:</h4>
+                    <ul className="space-y-1">
+                      <li>From Building A: 3 blocks</li>
+                      <li>From Building B: 2 blocks</li>
+                      <li>From Building C: 2 blocks</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold mb-2">Walking Distances to Station 2:</h4>
+                    <ul className="space-y-1">
+                      <li>From Building D: 3 blocks</li>
+                      <li>From Building E: 3 blocks</li>
+                      <li>From Building F: 2 blocks</li>
+                    </ul>
+                  </div>
+                </div>
+      
+                <div className="mt-6 bg-green-50 p-4 rounded-lg">
+                  <h4 className="font-semibold mb-2">Why This Works Well:</h4>
+                  <ul className="space-y-2">
+                    <li>• Maximum walking distance is only 3 blocks</li>
+                    <li>• Each station serves 3 buildings evenly</li>
+                    <li>• Stations are at easy-to-find street intersections</li>
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )
+      },
+      {
+        id: 'realworld',
+        title: 'Why Is This Useful?',
+        content: (
+          <div className="space-y-6">
+            <p className="text-lg">Think about these everyday situations:</p>
+            
+            <div className="grid grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <div className="p-6 bg-white rounded-lg shadow-sm border">
+                  <h3 className="font-semibold text-lg mb-3">Walking to School</h3>
+                  <p>
+                    When you walk to school, you follow sidewalks and streets. You can't walk 
+                    straight through buildings. Taxicab geometry helps plan the best route.
+                  </p>
+                </div>
+                
+                <div className="p-6 bg-white rounded-lg shadow-sm border">
+                  <h3 className="font-semibold text-lg mb-3">Pizza Delivery</h3>
+                  <p>
+                    Pizza delivery drivers need to know real driving distances, not straight-line 
+                    distances. This helps them plan faster routes.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="p-6 bg-white rounded-lg shadow-sm border">
+                  <h3 className="font-semibold text-lg mb-3">Finding Polling Stations</h3>
+                  <p>
+                    When cities plan where to put voting stations, they need to know real walking 
+                    distances for everyone in the neighborhood.
+                  </p>
+                </div>
+                
+                <div className="p-6 bg-white rounded-lg shadow-sm border">
+                  <h3 className="font-semibold text-lg mb-3">Emergency Services</h3>
+                  <p>
+                    Ambulances and fire trucks need to know actual driving distances to reach 
+                    people quickly in emergencies.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      },
     {
       id: 'explorer',
-      title: 'Interactive Explorer',
+      title: 'Try It Yourself!',
       content: (
         <div>
           <p className="text-lg mb-6">
-            Use this interactive tool to explore how distances differ between taxicab and 
-            Euclidean geometry. Try moving the start and end points to see how the paths 
-            and distances change!
+            Move the points around to see how taxicab distance compares to straight-line distance!
           </p>
           <GeometryExplorer />
         </div>
