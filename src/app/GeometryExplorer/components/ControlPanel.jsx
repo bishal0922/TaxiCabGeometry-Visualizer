@@ -1,4 +1,3 @@
-// src/app/GeometryExplorer/components/ControlPanel.jsx
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { 
@@ -9,8 +8,7 @@ import {
   RotateCcw, 
   ArrowRight,
   LayoutGrid,
-  Ban,
-  PanelRightOpen // Changed from PanelLeftOpen to match new direction
+  PanelRightOpen
 } from 'lucide-react';
 
 export const ControlPanel = ({ 
@@ -20,8 +18,6 @@ export const ControlPanel = ({
   setActiveGeometry,
   showGrid,
   setShowGrid,
-  isBlockingMode,
-  setIsBlockingMode,
   isAnimating,
   isPaused,
   startAnimation,
@@ -37,8 +33,6 @@ export const ControlPanel = ({
 
   return (
     <div className="flex items-center gap-2 mb-4">
-      
-
       {/* Path Type Controls */}
       <div className="flex gap-1">
         <Button
@@ -76,7 +70,7 @@ export const ControlPanel = ({
         </Button>
       </div>
 
-      {/* Grid and Block Controls */}
+      {/* Grid Control */}
       <div className="flex gap-1">
         <Button
           variant="outline"
@@ -86,20 +80,6 @@ export const ControlPanel = ({
         >
           <LayoutGrid className="w-3 h-3" />
           {renderTooltip('Toggle Grid')}
-        </Button>
-
-        <Button
-          variant={isBlockingMode ? "default" : "outline"}
-          size="icon"
-          onClick={() => {
-            if (isAnimating) return;
-            setIsBlockingMode(!isBlockingMode);
-          }}
-          className={`h-7 w-7 relative group ${isBlockingMode ? 'bg-red-500 hover:bg-red-600' : ''}`}
-          disabled={isAnimating}
-        >
-          <Ban className={`w-3 h-3 ${isBlockingMode ? 'text-white' : ''}`} />
-          {renderTooltip(isBlockingMode ? 'Exit Blocking Mode' : 'Block Streets')}
         </Button>
       </div>
 
@@ -111,7 +91,6 @@ export const ControlPanel = ({
             size="sm"
             onClick={startAnimation}
             className="relative group"
-            disabled={isBlockingMode}
           >
             <Play className="w-3 h-3 mr-1" />
             Start
@@ -141,8 +120,8 @@ export const ControlPanel = ({
         )}
       </div>
 
-{/* Theory Panel Toggle */}
-<Button
+      {/* Theory Panel Toggle */}
+      <Button
         variant="ghost"
         size="icon"
         onClick={() => setShowTheory(!showTheory)}

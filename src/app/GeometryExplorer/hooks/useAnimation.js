@@ -1,62 +1,46 @@
 // src/app/GeometryExplorer/hooks/useAnimation.js
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { getTaxicabPath } from '../utils/pathfinding';
 
-import { useState, useRef, useCallback } from 'react';
-import { findPath } from '../utils/pathfinding';
-
-export const useAnimation = (startPoint, endPoint, activeGeometry, gridSize, blockedStreets) => {
+export const useAnimation = (startPoint, endPoint, activeGeometry) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [birdPosition, setBirdPosition] = useState({ ...startPoint });
   const [taxiPosition, setTaxiPosition] = useState({ ...startPoint });
-  const [currentPath, setCurrentPath] = useState(null);
   const animationRef = useRef(null);
   const startTimeRef = useRef(null);
   const pausedTimeRef = useRef(null);
+  const elapsedRef = useRef(0);
 
-  const calculateTaxiPath = useCallback(() => {
-    if (activeGeometry === 'euclidean') return null;
-    
-    // Always use pathfinding to get the path, even without blocked streets
-    // This ensures consistent behavior and handling of both blocked and unblocked scenarios
-    const path = findPath(startPoint, endPoint, gridSize, blockedStreets);
-    
-    if (!path) {
-      console.warn('No valid path found between points');
-      return null;
-    }
-    
-    return path;
-  }, [startPoint, endPoint, activeGeometry, gridSize, blockedStreets]);
-  
   const animate = useCallback(() => {
     const calculateDuration = () => {
+      const path = getTaxicabPath(startPoint, endPoint);
       if (activeGeometry === 'both' || activeGeometry === 'taxicab') {
-        // Duration should be proportional to the actual path length
-        const taxiPathLength = currentPath ? currentPath.length - 1 : 0;
+        const taxiPathLength = path ? path.length - 1 : 0;
         const birdDistance = Math.sqrt(
           Math.pow(endPoint.x - startPoint.x, 2) + 
           Math.pow(endPoint.y - startPoint.y, 2)
         );
-        // Use the longer of the two paths to set the duration
         return Math.max(birdDistance, taxiPathLength) * 300;
       }
       
-      // For euclidean only
       return Math.sqrt(
         Math.pow(endPoint.x - startPoint.x, 2) + 
         Math.pow(endPoint.y - startPoint.y, 2)
       ) * 300;
     };
-  
+
     const duration = calculateDuration();
     const elapsed = Date.now() - startTimeRef.current;
+    elapsedRef.current = elapsed;
     const progress = Math.min(elapsed / duration, 1);
-  
+
     if (progress === 1) {
       setIsAnimating(false);
+      cancelAnimationFrame(animationRef.current);
       return;
     }
-  
+
     // Bird animation (for euclidean and both modes)
     if (activeGeometry !== 'taxicab') {
       setBirdPosition({
@@ -64,43 +48,49 @@ export const useAnimation = (startPoint, endPoint, activeGeometry, gridSize, blo
         y: startPoint.y + (endPoint.y - startPoint.y) * progress
       });
     }
-  
-    // Taxi animation (for taxicab and both modes)
-    if ((activeGeometry === 'taxicab' || activeGeometry === 'both') && currentPath?.length > 1) {
-      const pathProgress = progress * (currentPath.length - 1);
-      const currentIndex = Math.min(Math.floor(pathProgress), currentPath.length - 2);
-      const nextIndex = Math.min(currentIndex + 1, currentPath.length - 1);
-      const subProgress = pathProgress - currentIndex;
-  
-      const current = currentPath[currentIndex];
-      const next = currentPath[nextIndex];
-  
-      setTaxiPosition({
-        x: current.x + (next.x - current.x) * subProgress,
-        y: current.y + (next.y - current.y) * subProgress
-      });
+
+    // Taxi animation
+    if (activeGeometry === 'taxicab' || activeGeometry === 'both') {
+      const path = getTaxicabPath(startPoint, endPoint);
+      if (path?.length > 1) {
+        const pathProgress = progress * (path.length - 1);
+        const currentIndex = Math.min(Math.floor(pathProgress), path.length - 2);
+        const nextIndex = Math.min(currentIndex + 1, path.length - 1);
+        const subProgress = pathProgress - currentIndex;
+
+        const current = path[currentIndex];
+        const next = path[nextIndex];
+
+        setTaxiPosition({
+          x: current.x + (next.x - current.x) * subProgress,
+          y: current.y + (next.y - current.y) * subProgress
+        });
+      }
     }
-  
+
     animationRef.current = requestAnimationFrame(animate);
-  }, [startPoint, endPoint, activeGeometry, currentPath]);
+  }, [startPoint, endPoint, activeGeometry]);
 
   const startAnimation = useCallback(() => {
-    const taxiPath = calculateTaxiPath();
-    if ((activeGeometry === 'taxicab' || activeGeometry === 'both') && !taxiPath) {
-      alert("No valid path available! The taxi cannot reach the destination.");
-      return;
+    // Cancel any existing animation
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
     }
     
-    setCurrentPath(taxiPath);
-    setIsAnimating(true);
-    setIsPaused(false);
+    // Reset positions
     setBirdPosition({ ...startPoint });
     setTaxiPosition({ ...startPoint });
+    
+    // Set up new animation
+    setIsAnimating(true);
+    setIsPaused(false);
     startTimeRef.current = Date.now();
-    animate();
-  }, [startPoint, calculateTaxiPath, animate, activeGeometry]);
+    elapsedRef.current = 0;
+    
+    // Immediately request the first animation frame
+    animationRef.current = requestAnimationFrame(animate);
+  }, [startPoint, animate]);
 
-  // Rest of the hook remains the same...
   const pauseAnimation = useCallback(() => {
     setIsPaused(true);
     pausedTimeRef.current = Date.now();
@@ -112,26 +102,34 @@ export const useAnimation = (startPoint, endPoint, activeGeometry, gridSize, blo
   const resumeAnimation = useCallback(() => {
     setIsPaused(false);
     startTimeRef.current += Date.now() - pausedTimeRef.current;
-    animate();
+    animationRef.current = requestAnimationFrame(animate);
   }, [animate]);
 
   const resetAnimation = useCallback(() => {
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
     setIsAnimating(false);
     setIsPaused(false);
     setBirdPosition({ ...startPoint });
     setTaxiPosition({ ...startPoint });
-    setCurrentPath(null);
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
+    elapsedRef.current = 0;
   }, [startPoint]);
+
+  // Cleanup on unmount or when dependencies change
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
 
   return {
     isAnimating,
     isPaused,
     birdPosition,
     taxiPosition,
-    currentPath,
     startAnimation,
     pauseAnimation,
     resumeAnimation,

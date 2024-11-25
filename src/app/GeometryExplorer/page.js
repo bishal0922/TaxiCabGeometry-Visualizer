@@ -1,9 +1,9 @@
 // src/app/GeometryExplorer/page.js
 "use client"
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { AnimatePresence } from 'framer-motion';
+import {motion,  AnimatePresence } from 'framer-motion';
 import { ControlPanel } from './components/ControlPanel';
 import { TheoryPanel } from './components/TheoryPanel';
 import { Grid } from './components/Grid';
@@ -11,7 +11,23 @@ import { MetricsPanel } from './components/MetricsPanel';
 import { useAnimation } from './hooks/useAnimation';
 import { useGeometryCalculations } from './hooks/useGeometryCalculations';
 import { InstructionsPanel } from './components/InstructionsPanel';
-import { createStreetId } from './utils/pathfinding';
+import { getTaxicabPath } from './utils/pathfinding';
+import {Car} from 'lucide-react';
+
+const useTaxicabPath = (startPoint, endPoint, activeGeometry) => {
+  const [displayPath, setDisplayPath] = useState(null);
+
+  useEffect(() => {
+    if (activeGeometry === 'taxicab' || activeGeometry === 'both') {
+      const path = getTaxicabPath(startPoint, endPoint);
+      setDisplayPath(path);
+    } else {
+      setDisplayPath(null);
+    }
+  }, [startPoint, endPoint, activeGeometry]);
+
+  return displayPath;
+};
 
 const GeometryExplorer = () => {
   // Core state
@@ -26,7 +42,7 @@ const GeometryExplorer = () => {
   const [isBlockingMode, setIsBlockingMode] = useState(false);
   const [blockedStreets, setBlockedStreets] = useState(new Set());
   const [highlightedStreet, setHighlightedStreet] = useState(null);
-
+  const displayPath = useTaxicabPath(startPoint, endPoint, activeGeometry);
   // Custom hooks
   const {
     isAnimating,
@@ -180,9 +196,9 @@ const GeometryExplorer = () => {
         )}
   
         {/* Taxi path (for taxicab and 'both' modes) */}
-        {(activeGeometry === 'taxicab' || activeGeometry === 'both') && currentPath && (
+        {(activeGeometry === 'taxicab' || activeGeometry === 'both') && displayPath && (
           <>
-            {currentPath.map((point, index) => (
+            {displayPath.map((point, index) => (
               <circle
                 key={`path-point-${index}`}
                 cx={point.x * 10}
@@ -194,7 +210,7 @@ const GeometryExplorer = () => {
             ))}
             
             <path
-              d={`M ${currentPath.map(p => `${p.x * 10} ${p.y * 10}`).join(' L ')}`}
+              d={`M ${displayPath.map(p => `${p.x * 10} ${p.y * 10}`).join(' L ')}`}
               stroke="#ef4444"
               strokeWidth="0.5"
               strokeDasharray="2"
@@ -203,19 +219,35 @@ const GeometryExplorer = () => {
             />
           </>
         )}
-  
-        {isAnimating && (activeGeometry === 'taxicab' || activeGeometry === 'both') && (
-          <circle
-            cx={taxiPosition.x * 10}
-            cy={taxiPosition.y * 10}
-            r="0.5"
-            fill="#000000"
-            className="opacity-50"
-          />
+
+        {/* Animated vehicles */}
+        {isAnimating && (
+          <>
+            {(activeGeometry === 'taxicab' || activeGeometry === 'both') && (
+              <motion.g
+                initial={false}
+                animate={{
+                  x: taxiPosition.x * 10,
+                  y: taxiPosition.y * 10,
+                  rotate: taxiPosition.x === endPoint.x ? 90 : 0
+                }}
+                transition={{ type: "linear" }}
+              >
+                <circle r="2.5" fill="#fbbf24" className="drop-shadow-md" />
+                <foreignObject x="-2" y="-2" width="4" height="4">
+                  <div className="w-full h-full flex items-center justify-center">
+                    <Car className="w-2 h-2 text-black" />
+                  </div>
+                </foreignObject>
+              </motion.g>
+            )}
+            
+            {/* Keep existing bird animation code */}
+          </>
         )}
       </>
     );
-  }, [isAnimating, activeGeometry, startPoint, endPoint, currentPath, taxiPosition]);
+  }, [activeGeometry, startPoint, endPoint, displayPath, isAnimating, taxiPosition, endPoint]);
 
   return (
     <div className="min-h-screen flex justify-center mt-4">
