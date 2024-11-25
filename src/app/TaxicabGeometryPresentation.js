@@ -14,75 +14,75 @@ const TaxicabGeometryPresentation = () => {
       title: 'What is Taxicab Geometry?',
       content: (
         <div className="space-y-6">
-          <div className="text-center mb-8">
-            <h2 className="text-xl font-semibold text-gray-600">Math 3301</h2>
-            <h3 className="text-lg font-medium text-gray-500">Bishal Giri</h3>
+        <div className="text-center mb-8">
+          <h2 className="text-xl font-semibold text-gray-600">Math 3301</h2>
+          <h3 className="text-lg font-medium text-gray-500">Bishal Giri</h3>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-8">
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold">Introduction</h3>
+            <p className="text-lg leading-relaxed">
+              Imagine you&apos;re driving a taxi in a city. You can&apos;t drive through buildings - you have to follow the streets. 
+              This is exactly what taxicab geometry is about! It measures distances the way a car would actually drive through 
+              city streets, not as the crow flies.
+            </p>
+            
+            <h3 className="text-xl font-semibold mt-6">How Do We Calculate Distance?</h3>
+            <p className="text-lg leading-relaxed">
+              In normal (Euclidean) geometry, we measure straight-line distance. But in taxicab geometry, we add up 
+              the total blocks we need to travel horizontally and vertically.
+            </p>
+            
+            <div className="p-4 bg-blue-50 rounded-lg">
+              <p className="font-semibold mb-2">Simple Example:</p>
+              <p>Let&apos;s say you want to go from Point A(0,0) to Point B(3,2):</p>
+              <p>• You need to go right 3 blocks: 3 units</p>
+              <p>• You need to go up 2 blocks: 2 units</p>
+              <p>• Total distance = 3 + 2 = 5 blocks</p>
+            </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold">Simple Introduction</h3>
-              <p className="text-lg leading-relaxed">
-                Imagine you're driving a taxi in a city. You can't drive through buildings - you have to follow the streets. 
-                This is exactly what taxicab geometry is about! It measures distances the way a car would actually drive through 
-                city streets, not as the crow flies.
-              </p>
+          <div>
+            <svg viewBox="0 0 200 200" className="w-full h-auto border rounded-lg shadow-sm bg-white p-4">
+              {[...Array(8)].map((_, i) => (
+                <React.Fragment key={i}>
+                  <line 
+                    x1={25 * i + 25} y1="25" x2={25 * i + 25} y2="175"
+                    stroke="#eee" strokeWidth="1"
+                  />
+                  <line 
+                    x1="25" y1={25 * i + 25} x2="175" y2={25 * i + 25}
+                    stroke="#eee" strokeWidth="1"
+                  />
+                </React.Fragment>
+              ))}
               
-              <h3 className="text-xl font-semibold mt-6">How Do We Calculate Distance?</h3>
-              <p className="text-lg leading-relaxed">
-                In normal (Euclidean) geometry, we measure straight-line distance. But in taxicab geometry, we add up 
-                the total blocks we need to travel horizontally and vertically.
-              </p>
+              <path
+                d="M 50 150 L 50 50 L 150 50"
+                stroke="blue"
+                strokeWidth="2"
+                fill="none"
+              />
+              <text x="80" y="45" fill="blue" fontSize="12">Street Route</text>
               
-              <div className="p-4 bg-blue-50 rounded-lg">
-                <p className="font-semibold mb-2">Simple Example:</p>
-                <p>Let's say you want to go from Point A(0,0) to Point B(3,2):</p>
-                <p>• You need to go right 3 blocks: 3 units</p>
-                <p>• You need to go up 2 blocks: 2 units</p>
-                <p>• Total distance = 3 + 2 = 5 blocks</p>
-              </div>
-            </div>
-            
-            <div>
-              <svg viewBox="0 0 200 200" className="w-full h-auto border rounded-lg shadow-sm bg-white p-4">
-                {[...Array(8)].map((_, i) => (
-                  <React.Fragment key={i}>
-                    <line 
-                      x1={25 * i + 25} y1="25" x2={25 * i + 25} y2="175"
-                      stroke="#eee" strokeWidth="1"
-                    />
-                    <line 
-                      x1="25" y1={25 * i + 25} x2="175" y2={25 * i + 25}
-                      stroke="#eee" strokeWidth="1"
-                    />
-                  </React.Fragment>
-                ))}
-                
-                <path
-                  d="M 50 150 L 50 50 L 150 50"
-                  stroke="blue"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <text x="80" y="45" fill="blue" fontSize="12">Street Route</text>
-                
-                <line
-                  x1="50" y1="150"
-                  x2="150" y2="50"
-                  stroke="red"
-                  strokeWidth="2"
-                />
-                <text x="70" y="120" fill="red" fontSize="12">Direct Route</text>
-                
-                <circle cx="50" cy="150" r="4" fill="black" />
-                <text x="40" y="165" fontSize="12">Start</text>
-                
-                <circle cx="150" cy="50" r="4" fill="black" />
-                <text x="160" y="55" fontSize="12">End</text>
-              </svg>
-            </div>
+              <line
+                x1="50" y1="150"
+                x2="150" y2="50"
+                stroke="red"
+                strokeWidth="2"
+              />
+              <text x="70" y="120" fill="red" fontSize="12">Direct Route</text>
+              
+              <circle cx="50" cy="150" r="4" fill="black" />
+              <text x="40" y="165" fontSize="12">Start</text>
+              
+              <circle cx="150" cy="50" r="4" fill="black" />
+              <text x="160" y="55" fontSize="12">End</text>
+            </svg>
           </div>
         </div>
+      </div>
       )
     },
     {
