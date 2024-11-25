@@ -11,8 +11,7 @@ import { MetricsPanel } from './components/MetricsPanel';
 import { useAnimation } from './hooks/useAnimation';
 import { useGeometryCalculations } from './hooks/useGeometryCalculations';
 import { InstructionsPanel } from './components/InstructionsPanel';
-import { PanelRightOpen } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { createStreetId } from './utils/pathfinding';
 
 const GeometryExplorer = () => {
   // Core state
@@ -55,11 +54,23 @@ const GeometryExplorer = () => {
     return Math.atan2(dy, dx) * (180 / Math.PI);
   }, [startPoint, endPoint]);
 
-  // Helper function to format street identifier
-  const getStreetId = useCallback((x1, y1, x2, y2) => {
-    return `${Math.min(x1, x2)},${Math.min(y1, y2)}-${Math.max(x1, x2)},${Math.max(y1, y2)}`;
-  }, []);
 
+  const handleStreetClick = (x1, y1, x2, y2) => {
+    if (isBlockingMode) {
+      const streetId = createStreetId(x1, y1, x2, y2);
+      if (streetId) {
+        setBlockedStreets(prev => {
+          const newBlockedStreets = new Set(prev);
+          if (newBlockedStreets.has(streetId)) {
+            newBlockedStreets.delete(streetId);
+          } else {
+            newBlockedStreets.add(streetId);
+          }
+          return newBlockedStreets;
+        });
+      }
+    }
+  };
   // Grid interaction handlers
   const handleGridMouseDown = useCallback((e) => {
     if (isAnimating) return;
@@ -87,8 +98,8 @@ const GeometryExplorer = () => {
     const x = Math.floor(exactX);
     const y = Math.floor(exactY);
   
-    // Enhanced hit detection area for points (increased from exact match)
-    const hitRadius = 0.3; // 30% of a grid cell
+    // Enhanced hit detection area for points
+    const hitRadius = 0.3;
     const isNearStart = Math.abs(startPoint.x - exactX) < hitRadius && 
                        Math.abs(startPoint.y - exactY) < hitRadius;
     const isNearEnd = Math.abs(endPoint.x - exactX) < hitRadius && 
@@ -109,29 +120,37 @@ const GeometryExplorer = () => {
     const exactY = (e.clientY - rect.top) / rect.height * gridSize;
   
     if (isBlockingMode) {
-      // Determine if we're closer to a horizontal or vertical street
       const roundedX = Math.round(exactX);
       const roundedY = Math.round(exactY);
-      const distToHorizontal = Math.abs(exactY - roundedY);
-      const distToVertical = Math.abs(exactX - roundedX);
       
+      // Only proceed if we're within grid bounds
       if (roundedX >= 0 && roundedX < gridSize && roundedY >= 0 && roundedY < gridSize) {
+        const distToHorizontal = Math.abs(exactY - roundedY);
+        const distToVertical = Math.abs(exactX - roundedX);
+        
+        let streetId = null;
         if (distToHorizontal < distToVertical) {
           // Closer to horizontal street
           const x = Math.floor(exactX);
-          setHighlightedStreet(getStreetId(x, roundedY, x + 1, roundedY));
+          if (x >= 0 && x + 1 < gridSize) {
+            streetId = createStreetId(x, roundedY, x + 1, roundedY);
+          }
         } else {
           // Closer to vertical street
           const y = Math.floor(exactY);
-          setHighlightedStreet(getStreetId(roundedX, y, roundedX, y + 1));
+          if (y >= 0 && y + 1 < gridSize) {
+            streetId = createStreetId(roundedX, y, roundedX, y + 1);
+          }
+        }
+        
+        if (streetId !== highlightedStreet) {
+          setHighlightedStreet(streetId);
         }
       }
       return;
     }
-  
     if (!isDragging || !selectedPoint) return;
   
-    // Constrain to grid boundaries
     const newX = Math.max(0, Math.min(Math.round(exactX), gridSize - 1));
     const newY = Math.max(0, Math.min(Math.round(exactY), gridSize - 1));
   
@@ -140,9 +159,9 @@ const GeometryExplorer = () => {
     } else if (selectedPoint === 'end' && (newX !== startPoint.x || newY !== startPoint.y)) {
       setEndPoint({ x: newX, y: newY });
     }
-  }, [isDragging, selectedPoint, isBlockingMode, gridSize, startPoint, endPoint, getStreetId]);
+  }, [isDragging, selectedPoint, isBlockingMode, gridSize, startPoint, endPoint]);
 
-  // Render paths (continued)
+  // Render paths helper
   const renderPaths = useCallback(() => {
     return (
       <>
@@ -163,7 +182,6 @@ const GeometryExplorer = () => {
         {/* Taxi path (for taxicab and 'both' modes) */}
         {(activeGeometry === 'taxicab' || activeGeometry === 'both') && currentPath && (
           <>
-            {/* Debug markers for path points */}
             {currentPath.map((point, index) => (
               <circle
                 key={`path-point-${index}`}
@@ -175,7 +193,6 @@ const GeometryExplorer = () => {
               />
             ))}
             
-            {/* Path segments */}
             <path
               d={`M ${currentPath.map(p => `${p.x * 10} ${p.y * 10}`).join(' L ')}`}
               stroke="#ef4444"
@@ -187,7 +204,6 @@ const GeometryExplorer = () => {
           </>
         )}
   
-        {/* Debug - current positions */}
         {isAnimating && (activeGeometry === 'taxicab' || activeGeometry === 'both') && (
           <circle
             cx={taxiPosition.x * 10}
@@ -200,15 +216,13 @@ const GeometryExplorer = () => {
       </>
     );
   }, [isAnimating, activeGeometry, startPoint, endPoint, currentPath, taxiPosition]);
-  
+
   return (
-    <div className="min-h-screen flex justify-center mt-4" >
+    <div className="min-h-screen flex justify-center mt-4">
       <div className="flex items-start gap-4">
-        {/* Main Content - Keep original width */}
         <div className="w-[700px]">
           <Card className="bg-white/50 backdrop-blur-sm">
             <CardContent className="p-4">
-              {/* Keep original ControlPanel with the theory toggle */}
               <ControlPanel
                 showTheory={showTheory}
                 setShowTheory={setShowTheory}
@@ -226,7 +240,6 @@ const GeometryExplorer = () => {
                 resetAnimation={resetAnimation}
               />
               
-              {/* Main Grid Container */}
               <div className="relative">
                 <Grid
                   showGrid={showGrid}
@@ -245,7 +258,6 @@ const GeometryExplorer = () => {
                   activeGeometry={activeGeometry}
                   getBirdAngle={getBirdAngle}
                   handleGridMouseDown={handleGridMouseDown}
-                  currentPath={currentPath}
                   handleGridMouseMove={handleGridMouseMove}
                   handleGridMouseUp={() => {
                     setIsDragging(false);
@@ -257,19 +269,19 @@ const GeometryExplorer = () => {
                     setSelectedPoint(null);
                     setHighlightedStreet(null);
                   }}
+                  currentPath={currentPath}
                 />
               </div>
 
-              {/* Bottom Panels */}
               <div className="mt-4 grid grid-cols-2 gap-4">
-              <MetricsPanel
-  calculateEuclideanDistance={calculateEuclideanDistance}
-  calculateTaxicabDistance={calculateTaxicabDistance}
-  startPoint={startPoint}
-  endPoint={endPoint}
-  gridSize={gridSize}
-  blockedStreets={blockedStreets}
-/>
+                <MetricsPanel
+                  calculateEuclideanDistance={calculateEuclideanDistance}
+                  calculateTaxicabDistance={calculateTaxicabDistance}
+                  startPoint={startPoint}
+                  endPoint={endPoint}
+                  gridSize={gridSize}
+                  blockedStreets={blockedStreets}
+                />
                 <InstructionsPanel
                   isBlockingMode={isBlockingMode}
                   isAnimating={isAnimating}
@@ -281,7 +293,6 @@ const GeometryExplorer = () => {
           </Card>
         </div>
 
-        {/* Theory Panel */}
         <AnimatePresence mode="wait">
           {showTheory && (
             <div className="w-64 shrink-0">

@@ -13,45 +13,16 @@ export const useAnimation = (startPoint, endPoint, activeGeometry, gridSize, blo
   const startTimeRef = useRef(null);
   const pausedTimeRef = useRef(null);
 
-  // Calculate path for taxi movement
-// src/app/GeometryExplorer/hooks/useAnimation.js
-
-const calculateTaxiPath = useCallback(() => {
+  const calculateTaxiPath = useCallback(() => {
     if (activeGeometry === 'euclidean') return null;
     
-    if (blockedStreets.size > 0) {
-      const path = findPath(startPoint, endPoint, gridSize, blockedStreets);
-      if (!path) {
-        alert("No valid street path available! The taxi cannot reach the destination with the current blocked streets.");
-        return null;
-      }
-      return path;
-    }
+    // Always use pathfinding to get the path, even without blocked streets
+    // This ensures consistent behavior and handling of both blocked and unblocked scenarios
+    const path = findPath(startPoint, endPoint, gridSize, blockedStreets);
     
-    // If no streets are blocked, create a simple manhattan path
-    const path = [];
-    path.push({ ...startPoint }); // Start point
-    
-    // Horizontal movement first (if needed)
-    if (startPoint.x !== endPoint.x) {
-      // Add all intermediate points for horizontal movement
-      const direction = endPoint.x > startPoint.x ? 1 : -1;
-      let currentX = startPoint.x;
-      while (currentX !== endPoint.x) {
-        currentX += direction;
-        path.push({ x: currentX, y: startPoint.y });
-      }
-    }
-    
-    // Vertical movement (if needed)
-    if (startPoint.y !== endPoint.y) {
-      // Add all intermediate points for vertical movement
-      const direction = endPoint.y > startPoint.y ? 1 : -1;
-      let currentY = startPoint.y;
-      while (currentY !== endPoint.y) {
-        currentY += direction;
-        path.push({ x: endPoint.x, y: currentY });
-      }
+    if (!path) {
+      console.warn('No valid path found between points');
+      return null;
     }
     
     return path;
@@ -97,7 +68,7 @@ const calculateTaxiPath = useCallback(() => {
     // Taxi animation (for taxicab and both modes)
     if ((activeGeometry === 'taxicab' || activeGeometry === 'both') && currentPath?.length > 1) {
       const pathProgress = progress * (currentPath.length - 1);
-      const currentIndex = Math.floor(pathProgress);
+      const currentIndex = Math.min(Math.floor(pathProgress), currentPath.length - 2);
       const nextIndex = Math.min(currentIndex + 1, currentPath.length - 1);
       const subProgress = pathProgress - currentIndex;
   
@@ -116,6 +87,7 @@ const calculateTaxiPath = useCallback(() => {
   const startAnimation = useCallback(() => {
     const taxiPath = calculateTaxiPath();
     if ((activeGeometry === 'taxicab' || activeGeometry === 'both') && !taxiPath) {
+      alert("No valid path available! The taxi cannot reach the destination.");
       return;
     }
     
@@ -126,8 +98,9 @@ const calculateTaxiPath = useCallback(() => {
     setTaxiPosition({ ...startPoint });
     startTimeRef.current = Date.now();
     animate();
-  }, [startPoint, calculateTaxiPath, animate]);
+  }, [startPoint, calculateTaxiPath, animate, activeGeometry]);
 
+  // Rest of the hook remains the same...
   const pauseAnimation = useCallback(() => {
     setIsPaused(true);
     pausedTimeRef.current = Date.now();

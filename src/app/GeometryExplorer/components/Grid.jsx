@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bird, Car } from 'lucide-react';
-
+import { createStreetId } from '../utils/pathfinding'; // Add this import
 export const Grid = ({
   showGrid,
   gridSize,
@@ -24,12 +24,13 @@ export const Grid = ({
   handleGridMouseUp,
   handleGridMouseLeave
 }) => {
-  const getStreetCoords = (streetId) => {
-    const [start, end] = streetId.split('-');
-    const [x1, y1] = start.split(',').map(Number);
-    const [x2, y2] = end.split(',').map(Number);
-    return { x1, y1, x2, y2 };
-  };
+    const getStreetCoords = (streetId) => {
+        const [start, end] = streetId.split('-');
+        const [x1, y1] = start.split(',').map(Number);
+        const [x2, y2] = end.split(',').map(Number);
+        return { x1, y1, x2, y2 };
+      };
+      
 
   // Enhanced Point Component with larger hit area
   const Point = ({ type, position, isSelected }) => (
