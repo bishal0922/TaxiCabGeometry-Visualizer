@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { findPath } from '../utils/pathfinding';
 
 export const MetricsPanel = ({
   calculateEuclideanDistance,
@@ -14,10 +13,7 @@ export const MetricsPanel = ({
 }) => {
   const getActualTaxicabDistance = () => {
     // For taxicab distance, use the path length if there are blocked streets
-    if (blockedStreets.size > 0) {
-      const path = findPath(startPoint, endPoint, gridSize, blockedStreets);
-      return path ? path.length - 1 : Infinity;
-    }
+
     // Otherwise use the regular calculation
     return calculateTaxicabDistance(startPoint, endPoint);
   };

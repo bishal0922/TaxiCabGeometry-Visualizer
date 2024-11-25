@@ -70,23 +70,6 @@ const GeometryExplorer = () => {
     return Math.atan2(dy, dx) * (180 / Math.PI);
   }, [startPoint, endPoint]);
 
-
-  const handleStreetClick = (x1, y1, x2, y2) => {
-    if (isBlockingMode) {
-      const streetId = createStreetId(x1, y1, x2, y2);
-      if (streetId) {
-        setBlockedStreets(prev => {
-          const newBlockedStreets = new Set(prev);
-          if (newBlockedStreets.has(streetId)) {
-            newBlockedStreets.delete(streetId);
-          } else {
-            newBlockedStreets.add(streetId);
-          }
-          return newBlockedStreets;
-        });
-      }
-    }
-  };
   // Grid interaction handlers
   const handleGridMouseDown = useCallback((e) => {
     if (isAnimating) return;
